@@ -367,7 +367,6 @@ export interface MethodNotFoundError extends Error {
  * - **Prompts**: Unknown prompt name or missing required arguments
  * - **Pagination**: Invalid or expired cursor values
  * - **Logging**: Invalid log level
- * - **Elicitation**: Server requests an elicitation mode not declared in client capabilities
  * - **Sampling**: Missing tool result or tool results mixed with other content
  *
  * @see {@link https://www.jsonrpc.org/specification#error_object | JSON-RPC 2.0 Error Object}
@@ -2151,12 +2150,12 @@ export interface CreateMessageRequestParams {
   metadata?: JSONObject;
   /**
    * Tools that the model may use during generation.
-   * The client MUST return an error if this field is provided but {@link ClientCapabilities.sampling.tools} is not declared.
+   * If this field is provided but {@link ClientCapabilities.sampling.tools} is not declared, the client MUST refuse the unsupported operation locally and MUST NOT retry, as described in Error Handling.
    */
   tools?: Tool[];
   /**
    * Controls how the model uses tools.
-   * The client MUST return an error if this field is provided but {@link ClientCapabilities.sampling.tools} is not declared.
+   * If this field is provided but {@link ClientCapabilities.sampling.tools} is not declared, the client MUST refuse the unsupported operation locally and MUST NOT retry, as described in Error Handling.
    * Default is `{ mode: "auto" }`.
    */
   toolChoice?: ToolChoice;
